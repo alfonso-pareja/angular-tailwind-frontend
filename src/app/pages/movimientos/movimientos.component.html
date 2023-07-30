@@ -1,0 +1,35 @@
+<div class="grid gap-1 ">
+    <div class="w-full bg-white border border-gray-200 rounded-lg p-8 dark:bg-gray-800 dark:border-gray-700">
+        <div class="flex items-center justify-between mb-4 space-x-4">
+            <p class="text-xl font-bold leading-none text-gray-900 text-primary">Movimientos.</p>
+        </div>
+        
+        <div class="flow-root">
+            <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                <app-spinner *ngIf="isLoading"></app-spinner>
+                <ng-container *ngIf="!isLoading && !transactions.length">
+                    <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                       Aun no tienes movimientos
+                     </p>
+                </ng-container>
+                <li class="py-3 sm:py-4" *ngFor="let transaction of transactions">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                               Trasnferencia a
+                            </p>
+                            <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                {{transaction.receiverAccountName}}
+                            </p>
+                        </div>
+                        <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                            ${{transaction.amount}}
+                        </div>
+                    </div>
+                </li>
+  
+            </ul>
+        </div>
+    </div>
+  </div>
+  

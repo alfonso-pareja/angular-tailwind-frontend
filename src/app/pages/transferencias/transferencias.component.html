@@ -1,0 +1,87 @@
+<section>
+  <div class="grid gap-1 mb-4">
+    <div class="w-full bg-white p-8 border border-gray-200 rounded dark:bg-gray-800 dark:border-gray-700">
+      <p class="text-xl font-bold leading-none text-gray-900 text-primary">
+        Realizar Transferencia
+      </p>
+
+      <br>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm mb-2" for="email">
+          <span class="font-bold">Destinatario: </span>
+          <span *ngIf="selectedDestinatario">{{ selectedDestinatario.recipientName }}</span>
+        </label>
+        <label class="block text-gray-700 text-sm mb-2" for="email">
+          <span class="font-bold">Cuenta: </span>
+          <span *ngIf="selectedDestinatario">{{ selectedDestinatario.recipientAccountNumber }}</span>
+        </label>
+        <app-spinner *ngIf="isLoadingRecipients"></app-spinner>
+        <label for="r-modal" *ngIf="!isLoadingRecipients && !selectedDestinatario"
+          class="btn btn-primary btn-xs">Seleccionar Destinatario</label>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+          Monto a transferir:
+        </label>
+        <input class="input input-bordered sm:text-sm w-full" type="text" (input)="formatValue()"
+          [(ngModel)]="amountValue" required>
+      </div>
+
+      <button *ngIf="!isLoadingTransactions" type="button" (click)="sendTransaction()"
+        class="btn btn-primary btn-block">Transferir</button>
+      <loading-button *ngIf="isLoadingTransactions" message="Realizando Transferencia"></loading-button>
+    </div>
+
+  </div>
+</section>
+
+
+<input type="checkbox" id="r-modal" #modalToggle class="modal-toggle">
+<div class="modal">
+  <div class="modal-box">
+    <h2 class="text-2xl text-primary font-bold text-center">Destinatarios</h2>
+
+    <div class="flow-root">
+      <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+        <ng-container>
+          <li class="py-3 sm:py-4" *ngFor="let recipient of recipients">
+            <div class="flex items-center space-x-4">
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                  {{recipient.recipientName}}
+                </p>
+                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                  {{recipient.recipientAccountNumber}}
+                </p>
+              </div>
+              <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                <!-- ${{transaction.amount}} -->
+                <div class="btn-group">
+                  <button [disabled]="isLoadingRecipients || isLoadingRecipientsModal"
+                    class="btn btn-xs btn-outline btn-secondary" (click)="deleteRecipient(recipient.recipientId)">
+                    Eliminar
+                  </button>
+                  <button [disabled]="isLoadingRecipients || isLoadingRecipientsModal" class="btn btn-active btn-xs"
+                    (click)="toSelectRecipient(recipient.recipientAccountNumber)">
+                    Transferir
+                  </button>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ng-container>
+
+
+      </ul>
+    </div>
+
+    <div class="modal-action">
+      <loading-button *ngIf="isLoadingRecipientsModal || isLoadingRecipients" message="Actualizando"></loading-button>
+      <ng-container *ngIf="!isLoadingRecipientsModal && !isLoadingRecipients">
+        <button type="button" (click)="goToRecipients()" class="btn btn-primary btn-sm">Agregar Destinatario</button>
+        <label for="r-modal" class="btn btn-sm">Cerrar</label>
+      </ng-container>
+    </div>
+  </div>
+</div>

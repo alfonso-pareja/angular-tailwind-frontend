@@ -1,0 +1,88 @@
+<div class="bg-rad">
+    <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0 ">
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                <form class="space-y-4 md:space-y-6" (ngSubmit)="onLoginSubmit()">
+                    <h2 class="text-2xl font-bold text-center text-primary">Login</h2>
+
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+                            Email:
+                        </label>
+                        <input class="input input-bordered sm:text-sm w-full" id="email" name="email" type="text"
+                            [(ngModel)]="email" required placeholder="your@email.com">
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+                            Contraseña:
+                        </label>
+                        <input class="input input-bordered sm:text-sm w-full" id="password" name="password"
+                            type="password" [(ngModel)]="password" required placeholder="••••••••">
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <button *ngIf="!isLoading" type="submit" class="btn btn-primary btn-block ">
+                            <span>Iniciar sesión</span>
+                        </button>
+                    </div>
+                    <loading-button *ngIf="isLoading" message="Inciando Sesion"></loading-button>
+                </form>
+                <p class="text-sm text-center font-light text-gray-500 dark:text-gray-400">
+                    <label for="registerUser-modal"
+                        class="font-medium text-primary-600 hover:underline dark:text-primary-500">Registrar
+                        nuevo usuario</label>
+                </p>
+
+                <!-- <label for="my-modal-2" class="btn btn-primary modal-button">open modal</label>  -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<input type="checkbox" id="registerUser-modal" class="modal-toggle">
+<div class="modal">
+    <div class="modal-box">
+        <h2 class="text-2xl font-bold text-center">Crear Usuario</h2>
+        <form>
+            <div class="form-group">
+                <label for="name">Nombre:</label>
+                <input type="text" id="name" name="name"  [(ngModel)]="registerForm.name"  class="input input-bordered sm:text-sm w-full" required>
+            </div>
+
+            <div class="form-group">
+                <label for="emailForm">Email:</label>
+                <input type="email" id="emailForm" name="emailForm" [(ngModel)]="registerForm.email"  class="input input-bordered sm:text-sm w-full" required>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Dirección:</label>
+                <input type="text" id="address" name="address" [(ngModel)]="registerForm.address"  class="input input-bordered sm:text-sm w-full" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Teléfono:</label>
+                <input type="tel" id="phone" name="phone" [(ngModel)]="registerForm.phone"  class="input input-bordered sm:text-sm w-full" required>
+            </div>
+
+            <div class="form-group">
+                <label for="passwordForm">Contraseña:</label>
+                <input type="password" id="passwordForm" name="passwordForm" [(ngModel)]="registerForm.password"  class="input input-bordered sm:text-sm w-full" required>
+            </div>
+
+            <div class="form-group">
+                <label for="repeat_password">Repetir Contraseña:</label>
+                <input type="password" id="repeat_password" name="repeat_password" [(ngModel)]="registerForm.repeatPassword"  class="input input-bordered sm:text-sm w-full"
+                    required>
+            </div>
+
+        </form>
+
+        <div class="modal-action">
+            <loading-button *ngIf="isLoadingForm"  message="Registrando usuario"></loading-button>
+            <ng-container *ngIf="!isLoadingForm" >
+                <button type="button" (click)="onRegisterSubmit()" class="btn btn-primary">Crear Usuario</button>
+                <label for="registerUser-modal" [disabled]="isLoadingForm" class="btn">Cerrar</label>
+            </ng-container>
+        </div>
+    </div>
+</div>

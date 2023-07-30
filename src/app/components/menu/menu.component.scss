@@ -1,0 +1,19 @@
+
+.menu {
+    ul {
+      li {
+        cursor: pointer;
+      }
+    }
+
+    .active {
+      background-color: #4e32773a;
+      font-weight: bold;
+    }
+}
+
+.logout-ul {
+  position: absolute;
+  bottom: 12%;
+}
+  

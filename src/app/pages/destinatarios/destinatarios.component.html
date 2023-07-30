@@ -1,0 +1,81 @@
+<section>
+  <div class="grid gap-1 mb-4">
+    <div class="w-full bg-white p-8  border border-gray-200 rounded dark:bg-gray-800 dark:border-gray-700 ">
+      <p class="mb-2 text-2xl font-bold text-primary text-gray-900 dark:text-white">
+        Agregar Nuevo Destinatario.
+      </p>
+
+      <div class="flow-root pace-y-4 md:space-y-6 mt-10">
+        <form (submit)="addRecipients()">
+          <div class="mb-4">
+            <label for="nombre">Alias:</label>
+            <input type="text" class="input input-bordered sm:text-sm w-full" id="nombre" name="nombre"
+              [(ngModel)]="form.name">
+          </div>
+          <div class="mb-4">
+            <label for="numeroCuenta">Número de Cuenta:</label>
+            <input type="text" class="input input-bordered sm:text-sm w-full" id="numeroCuenta" name="numeroCuenta"
+              [(ngModel)]="form.accountNumber">
+          </div>
+          <div class="flex items-center justify-between">
+            <button *ngIf="!isLoadingAddRecipient" class="btn btn-primary btn-block" type="submit">Agregar</button>
+            <loading-button *ngIf="isLoadingAddRecipient" class="btn-block"
+              message="Agregando destinatario"></loading-button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="grid gap-1 ">
+    <div class="w-full bg-white border border-gray-200 rounded-lg p-8 dark:bg-gray-800 dark:border-gray-700">
+      <div class="flex items-center justify-between mb-4 space-x-4">
+
+        <p class="text-xl font-bold leading-none text-gray-900 text-primary">
+          Destinatarios
+        </p>
+      </div>
+
+      <div class="flow-root">
+        <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+          <app-spinner *ngIf="isLoading"></app-spinner>
+          <ng-container *ngIf="!isLoading">
+            <ng-container *ngIf="!recipients.length">
+              <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                 Aun no tienes destinatarios
+               </p>
+          </ng-container>
+            <li class="py-3 sm:py-4" *ngFor="let recipient of recipients">
+              <div
+                class="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0 md:space-x-4">
+                <div class="flex-1 min-w-0">
+                  <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                    {{recipient.recipientName}}
+                  </p>
+                  <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                    {{recipient.recipientAccountNumber}}
+                  </p>
+                </div>
+                <div class="btn-group max-w-xs mt-2 md:mt-0">
+                  <button class="btn btn-xs btn-outline btn-secondary" (click)="deleteRecipient(recipient.recipientId)">
+                    Eliminar
+                  </button>
+                  <button class="btn btn-active btn-xs" (click)="toTransaction(recipient.recipientAccountNumber)">
+                    Transferir
+                  </button>
+                </div>
+              </div>
+            </li>
+          </ng-container>
+
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+
+</section>

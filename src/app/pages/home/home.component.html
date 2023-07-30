@@ -1,0 +1,53 @@
+<section>
+
+    <div class="grid gap-1 mb-4">
+        <div class="w-full bg-white p-8 border border-gray-200 rounded dark:bg-gray-800 dark:border-gray-700 ">
+            <p class="mb-2 text-2xl text-gray-900 dark:text-white">
+                Bienvenido <span class="font-bold">{{user.name}}!</span>
+            </p>
+            <p class="font-normal text-gray-700 dark:text-gray-400">Tu saldo actual es: <span class="font-bold text-primary">{{user.balance | CLPCurrencyPipe }}</span> </p>
+        </div>
+
+    </div>
+
+    
+    <div class="grid gap-1 ">
+        <div
+            class="w-full bg-white p-8 border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700">
+            <div class="flex items-center justify-between mb-4 space-x-4">
+                <p class="text-xl font-bold leading-none text-gray-900 text-primary">Ultimos Movimientos.</p>
+                <a href="/movimientos" class="text-sm font-medium text-secondary hover:underline ">
+                    Ver mas.
+                </a>
+            </div>
+            
+            <div class="flow-root">
+                <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                    <app-spinner *ngIf="isLoading"></app-spinner>
+                    <ng-container *ngIf="!isLoading && !transactions.length">
+                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                           Aun no tienes movimientos
+                         </p>
+                    </ng-container>
+                    <li class="py-3 sm:py-4" *ngFor="let transaction of transactions">
+                        <div class="flex items-center space-x-4">
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                   Transferencia a
+                                </p>
+                                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    {{transaction.receiverAccountName}}
+                                </p>
+                            </div>
+                            <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                {{transaction.amount | CLPCurrencyPipe}}
+                            </div>
+                        </div>
+                    </li>
+    
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</section>
