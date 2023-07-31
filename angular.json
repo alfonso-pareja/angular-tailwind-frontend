@@ -31,7 +31,7 @@
             ],
             "styles": [
               "node_modules/ngx-toastr/toastr.css",
-              "node_modules/tailwindcss/tailwind.css",
+              "src/tailwind.css",
               "src/styles.scss"
             ],
             "scripts": []
