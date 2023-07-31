@@ -100,7 +100,8 @@ export class AuthService {
    * @returns
    */
   getAccountNumber(): string {
-    return this.isAuthenticated() ? this.getUser().accountNumber : "";
+    const user = this.getUser();
+    return user && user.accountNumber ? user.accountNumber : "";
   }
 
   /**
@@ -108,7 +109,8 @@ export class AuthService {
    * @returns
    */
   getAccountId(): number {
-    return this.isAuthenticated() ? this.getUser().accountId : 0;
+    const user = this.getUser();
+    return user && user.accountId ? user.accountId : 0;
   }
 
   /**

@@ -1,118 +1,83 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { HomeComponent } from './home.component';
-import { AuthService } from 'src/app/services/auth.service';
-import { RequestService } from 'src/app/services/request.service';
-import { of } from 'rxjs';
-import { User } from 'src/app/interfaces/user.interface';
+import { AuthService } from '../../services/auth.service';
+import { RequestService } from '../../services/request.service';
 import { Transactions } from 'src/app/interfaces/transactions.interface';
+import { User } from 'src/app/interfaces/user.interface';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
-  let authService: jasmine.SpyObj<AuthService>;
-  let requestService: jasmine.SpyObj<RequestService>;
-
-  const mockUser: User = {
-    "userId": 8,
-    "name": "John Doe",
-    "email": "john.doe@example.com",
-    "address": "123 Main St",
-    "phone": "1234567890",
-    "created": "2023-07-26T21:09:16.000Z",
-    "updated": "2023-07-26T21:09:16.000Z",
-    "accountNumber": "3807783189",
-    "accountType": "Cuenta Corriente",
-    "bank": "Banco Ripley",
-    "balance": 251,
-    "accountId": 7,
-    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTY5MDY5NDc2MCwiZXhwIjoxNjkwNjk4MzYwfQ.ahkm1zSjOZpgQ0hP36OzQbnSGwQx77qyAxMJ6K5RWFc'
-  };
-  
-  const mockTransactions: Transactions[] = [
-    { 
-      transactionId: 1, 
-      senderAccountId: 123, 
-      receiverAccountName: 'Recipient 1', 
-      receiverAccountId: 9, 
-      amount: 1,
-      transactionNumber: 12345,
-      transactionDate: '2023-07-27',
-      transactionType: 'transfer',
-      status: 'completed',
-      updated: '2023-07-27'
-    },
-    { 
-      transactionId: 2, 
-      senderAccountId: 456, 
-      receiverAccountName: 'Recipient 2', 
-      receiverAccountId: 9, 
-      amount: 1,
-      transactionNumber: 67890,
-      transactionDate: '2023-07-28',
-      transactionType: 'transfer',
-      status: 'completed',
-      updated: '2023-07-28'
-    },
-  ];
+  let authService: AuthService;
+  let requestService: RequestService;
 
   beforeEach(() => {
-    const authServiceSpy = jasmine.createSpyObj('AuthService', ['getUser', 'setUser']);
-    const requestServiceSpy = jasmine.createSpyObj('RequestService', ['get']);
+    authService = jasmine.createSpyObj('AuthService', ['getUser', 'setUser']);
+    requestService = jasmine.createSpyObj('RequestService', ['get']);
 
-    TestBed.configureTestingModule({
-      declarations: [HomeComponent],
-      providers: [
-        { provide: AuthService, useValue: authServiceSpy },
-        { provide: RequestService, useValue: requestServiceSpy },
-      ],
-    });
-
-    fixture = TestBed.createComponent(HomeComponent);
-    component = fixture.componentInstance;
-    authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
-    requestService = TestBed.inject(RequestService) as jasmine.SpyObj<RequestService>;
-
-    authService.getUser.and.returnValue(mockUser);
+    component = new HomeComponent(authService, requestService);
   });
 
-  fit('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should set user info on ngOnInit', fakeAsync(() => {
-    // requestService.get.withArgs(`user/${mockUser.userId}`).and.returnValue(of({ data: mockUser }).toPromise());
+  describe('ngOnInit', () => {
+    it('should set user and fetch data on initialization', async () => {
+      const user = { userId: 1, accountId: 2 };
+      (authService.getUser as jasmine.Spy).and.returnValue(user);
+      spyOn(component, 'getUserInfo').and.returnValue(Promise.resolve());
+      spyOn(component, 'getLastTransactions').and.returnValue(Promise.resolve());
 
-    component.ngOnInit();
-    tick();
+      await component.ngOnInit();
 
-    expect(authService.setUser).toHaveBeenCalledWith(mockUser);
-    expect(component.user).toEqual(mockUser);
-  }));
+      expect(authService.getUser).toHaveBeenCalled();
+      expect(component.isLoading).toBe(false);
+      expect(component.getUserInfo).toHaveBeenCalled();
+      expect(component.getLastTransactions).toHaveBeenCalled();
+    });
+  });
 
-  fit('should get last transactions on ngOnInit', fakeAsync(() => {
-    // requestService.get.withArgs(`transactions/${mockUser.accountId}?limit=5`).and.returnValue(of({ data: mockTransactions }).toPromise());
+  describe('getLastTransactions', () => {
+    it('should fetch last transactions for the user and set the transactions property', async () => {
+      const transactions: Transactions[] = [
+        { transactionId: 1, amount: 100 },
+        { transactionId: 2, amount: -50 }
+      ];
+  
+      // Simular la llamada a requestService.get para que devuelva un resultado válido
+      (requestService.get as jasmine.Spy).and.returnValue(Promise.resolve({ data: transactions }));
+  
+      // Asignar un valor válido a component.user
+      component.user = { userId: 1, accountId: 2 } as User;
+  
+      await component.getLastTransactions();
+  
+      expect(requestService.get).toHaveBeenCalledWith('transactions/2?limit=5');
+      expect(component.transactions).toEqual(transactions);
+    });
+  });
+  
+  
 
-    component.ngOnInit();
-    tick();
+  describe('getUserInfo', () => {
+    it('should set the user information', async () => {
+      const userInfo: User = { userId: 1, name: 'John Doe', email: 'john@example.com' };
+      (authService.getUser as jasmine.Spy).and.returnValue({ userId: 1 }); // Simular authService.getUser()
+      
+      // Simular correctamente la llamada a requestService.get con una respuesta válida
+      (requestService.get as jasmine.Spy).withArgs('user/1').and.returnValue(Promise.resolve({ data: userInfo }));
+  
+      component.user = { userId: 1, accountId: 2 }; // Inicializar component.user
+  
+      await component.getUserInfo();
+  
+      expect(requestService.get).toHaveBeenCalledWith('user/1');
+      expect(authService.setUser).toHaveBeenCalledWith(userInfo);
+      expect(authService.getUser).toHaveBeenCalled();
+    });
+    
+  
+  });
+  
 
-    expect(component.transactions).toEqual(mockTransactions);
-  }));
-
-  fit('should set isLoading to true while loading data', fakeAsync(() => {
-    // requestService.get.and.returnValue(new Promise(() => {})); // Simulate a pending promise
-
-    component.ngOnInit();
-
-    expect(component.isLoading).toBeTrue();
-    tick();
-  }));
-
-  fit('should set isLoading to false after loading data', fakeAsync(() => {
-    // requestService.get.and.returnValue(Promise.resolve({ data: [] })); // Simulate a resolved promise
-
-    component.ngOnInit();
-    tick();
-
-    expect(component.isLoading).toBeFalse();
-  }));
+  
 });

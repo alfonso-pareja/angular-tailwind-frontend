@@ -10,7 +10,7 @@ import { RequestService } from "src/app/services/request.service";
   styleUrls: ["./home.component.scss"]
 })
 export class HomeComponent implements OnInit {
-  public user!: User;
+  public user: User = {} as User;
   public transactions!: Transactions[];
   isLoading: boolean = false;
   constructor(

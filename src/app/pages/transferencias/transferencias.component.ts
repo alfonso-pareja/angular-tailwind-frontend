@@ -24,7 +24,6 @@ export class TransferenciasComponent implements OnInit {
   formattedValue: string = "";
 
   constructor(
-    private http: HttpClient,
     public modalService: NgbModal,
     private router: Router,
     private toastr: ToastrService,
