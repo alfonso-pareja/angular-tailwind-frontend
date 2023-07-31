@@ -25,6 +25,7 @@ Para iniciar el proyecto, ejecuta el siguiente comando:
 ```sh
 npm start
 ```
+Para garantizar el correcto funcionamiento de este proyecto, es necesario tener en funcionamiento el proyecto de backend correspondiente. Puedes encontrar el código fuente y las instrucciones para levantar el backend en el [repositorio de GitHub](https://github.com/alfonso-pareja/desafio-check-frontend) . Por favor, asegúrate de seguir las instrucciones de instalación y puesta en marcha antes de intentar ejecutar este proyecto.
 
 ## 🧪 Ejecutar pruebas
 Para iniciar las pruebas, ejecuta el siguiente comando:
@@ -33,10 +34,9 @@ npm test
 ```
 
 ## Descripción del Proyecto
-Este proyecto es la parte frontend de la prueba técnica de Ripley. Se ha desarrollado utilizando Angular, un marco de trabajo para la construcción de aplicaciones web en HTML y TypeScript.
+Este proyecto es la parte frontend de la prueba técnica de Ripley. La aplicación ha sido construida utilizando Angular, un framework de trabajo para el desarrollo de aplicaciones web dinámicas en HTML y TypeScript.
 
-
-Para el uso y pruebas del proyecto se encuentran creados 3 usuarios, los cuales mantienen las siguientes credenciales:
+Para facilitar las pruebas de estas funcionalidades, se han creado previamente tres usuarios. Aquí están las credenciales de estos usuarios:
 
 | ID | Nombre       | Email            | Password    | Cuenta      |
 |----|--------------|------------------|-------------|-------------|
