@@ -49,8 +49,10 @@ export class AuthService {
    */
   logout() {
     AuthService.removeStorageParams();
-    this.router.createUrlTree(["/login"]);
-    window.location.reload();
+    this.router.navigateByUrl('login');
+    setTimeout(() => {
+      window.location.reload();
+    }, 800)
   }
 
 
