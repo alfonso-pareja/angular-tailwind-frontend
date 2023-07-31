@@ -40,3 +40,4 @@ npm-debug.log*
 
 package-lock.json
 /assets/.getkeep
+.vercel

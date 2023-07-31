@@ -46,3 +46,24 @@ Para facilitar las pruebas de estas funcionalidades, se han creado previamente t
 
 
 
+## 📸 Imágenes
+A continuación, se presentan algunas capturas de pantalla de la aplicación:
+
+**Inicio de sesión**
+![Login](/images/login.png)
+Pantalla de inicio de sesión, donde los usuarios pueden ingresar sus credenciales para acceder a la aplicación.
+
+**Creación de un usuario**
+![Login](/images/register.png)
+Pantalla de registro, donde se pueded realizar la creacion de una cuenta.
+
+**Página principal**
+![Login](/images/home.png)
+Una vez que el usuario ha iniciado sesión, será redirigido a la página principal, donde podrá ver su saldo y ver sus movimientos.
+
+**Agregar destinatario**
+![Login](/images/add_recipient.png)
+Desde esta pantalla, los usuarios pueden agregar nuevos destinatarios a los que deseen transferir fondos.
+
+**Realizar una transferencia**
+![Login](/images/transaction.png)
