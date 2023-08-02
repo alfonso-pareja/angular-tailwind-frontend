@@ -1,6 +1,8 @@
 # 🎯 Desafio Check Frontend
 El presente repositorio ha sido desarrollado en respuesta a la prueba técnica de ingreso de Ripley.
 
+Live Preview: https://desafio-check-frontend.vercel.app
+
 ## 📋 Requisitos
 Este proyecto requiere Node.js v18.16.1. Se recomienda usar NVM para gestionar las versiones de Node.js. Una vez instalado NVM, puedes instalar la versión correcta de Node.js con el siguiente comando:
 ```sh
