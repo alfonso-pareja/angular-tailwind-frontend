@@ -31,7 +31,6 @@ npm-debug.log*
 /.nyc_output
 /jest.config.js
 
-/*.js
 /*.js.map
 /*.d.ts
 
